@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+echo "Setting API_HOST in frontend"
+
+: "${API_HOST="http://127.0.0.1:5000"}"
+export API_HOST
+
+target="/usr/share/nginx/html/index.html"
+envsubst <"$target" | tee "$target" > /dev/null
+echo "Replaced API_HOST with $API_HOST"
+
+echo "Custom entrypoint loaded, starting default nginx entrypoint"
+exec /docker-entrypoint.sh "$@"

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Fontawesome CSS -->
+    <link href="https://www.dabble.be/css/fontawesome.css" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- Custom CSS -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://www.dabble.be/css/theme.css">
+    <link rel="shortcut icon" type="image/png" href="https://www.dabble.be/img/dabble/favicon.png"/>
+
+    <script>
+const host = "$API_HOST"
+
+window.onload = function onload() {
+  const url = host + "/companies";
+  const myRequest = new Request(url);
+
+  console.log("Page is fully loaded, downloading companies");
+  fetch(myRequest)
+   .then(response => response.json())
+   .then(data => {
+     updateView(data);
+   })
+   .catch(function() {
+     const myList = document.getElementById('ulCompanies');
+     const msg = "Failed to fetch companies."
+     myList.innerHTML = msg;
+     console.log(msg);
+   });
+  console.log("Finished #onload()")
+}
+
+function btnAddCompanyPressed() {
+  var id = document.getElementById('companyId').value;
+  var name = document.getElementById('companyName').value;
+  company = { id: id, name: name };
+
+  addCompany(company);
+}
+
+function updateView(companies) {
+  const myList = document.getElementById('ulCompanies');
+  myList.innerHTML = ""
+
+  for (const company of companies) {
+    myList.innerHTML += ("<li class='list-group-item'><small>" + company.id +  "</small><h2>" + company.name +  "</h2><div class='text-right'><button onclick='removeCompany(" + company.id + ")' type='button' class='btn btn-danger'>Delete</button></div></li>")
+    console.log("Company found: [" + company.id +  "] " + company.name)
+  }
+}
+
+function removeCompany(id) {
+  const url = host + "/companies";
+  const body = JSON.stringify({ id: id.toString() });
+  const options = {
+    method: "DELETE",
+    body: body,
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+
+  console.log("Removing company: " + body);
+  fetch(url, options)
+    .then(response => response.json())
+    .then(data => {
+      updateView(data)
+    })
+    .catch(console.error);
+}
+
+function addCompany(company) {
+  const url = host + "/companies";
+  const body = JSON.stringify(company);
+  const options = {
+    method: "POST",
+    body: body,
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+
+  console.log("Adding company: " + body);
+  fetch(url, options)
+    .then(response => response.json())
+    .then(data => {
+      updateView(data)
+    })
+    .catch(console.error);
+}
+    </script>
+
+    <title>Companies</title>
+  </head>
+  <body>
+
+    <nav class="navbar navbar-fixed-top navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="https://www.dabble.be">
+        <picture>
+          <img class="logo" alter="Dabble" src="https://www.dabble.be/img/dabble/logo-head.30x25.png" />
+        </picture>
+      </a>
+      <input type="checkbox" id="navbar-toggle-cbox">
+      <div class="navbar-header">
+        <label for="navbar-toggle-cbox" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <i class="menu-button navbar-toggler fas fa-bars"></i>
+        </label>
+      </div>
+      <div class="collapse navbar-collapse mt-10" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+        </ul>
+      </div>
+    </nav>
+    <div class="spacer bg-dark"></div>
+
+    <div id="companies" class="container-fluid about shadow">
+      <ul id="ulCompanies" class="list-group mt-4 mb-4">
+        <!-- Placeholder for ajax call results -->
+      </ul>
+    </div>
+
+    <div class="container-fluid bg-primary" style="padding: 15px">
+      <label for="companyId" style="color: #fec282">ID</label>
+      <input type="number" class="form-control" id="companyId" style="width: 50px">
+      <label for="companyName" style="color: #fec282">Name</label>
+      <input type="text" class="form-control" id="companyName" style="max-width: 200px">
+
+      <div class="spacer bg-dark"></div>
+      <button type="submit" class="btn btn-primary" onclick="btnAddCompanyPressed()">Add</button>
+    </div>
+
+
+    <footer class="footer text-muted">
+      <hr class="thin" />
+      <div class="row">
+        <div class="col-sm">
+          <p>© 2019 Dabble CommV.</p>
+        </div>
+        <div class="col-sm" style="text-align: right;">
+          <p><small>Brought to you by https://www.dabble.be</small></p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
