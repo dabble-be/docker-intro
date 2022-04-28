@@ -7,7 +7,7 @@ This intro, we'll dive into using containers using a free tool: https://labs.pla
 Prepare for this lesson by pulling this repository and creating a basic directory structure:
 
 ```sh
-cd docker-intro
+cd docker-intro*
 mkdir -v API
 cp -v .API/api.py .API/requirements.txt API/
 cd API
