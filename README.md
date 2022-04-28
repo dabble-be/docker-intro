@@ -32,7 +32,7 @@ Behold `API`: A look at a simple web application written in `Python`.
 To launch it locally, move into the API folder and run the application:
 
 ```sh
-pip install -r requirements.txt
+pip install --ignore-installed -r requirements.txt
 ```
 
 _output:_
