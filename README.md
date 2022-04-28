@@ -397,6 +397,8 @@ When prompted for a port number, we can supply port `5000`. (after the port we u
 
 (To actually get a JSON response with companies, don't forget to append `/companies` to your URI: `http://ip172-18-0-54-c658727qf8u00093atb0-5000.direct.labs.play-with-docker.com/companies`)
 
+> When you are ready to move on to the to the next chapter, use `CTRL` + `C` to end the process.
+
 ## Orchestrate
 
 Things are getting out of hand pretty quick. In our last exercise we created an API that serves company names. Now the crowd is demanding a nicer web page. JSON isn't really nice to look at for normal humans after all.
